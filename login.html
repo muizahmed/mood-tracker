@@ -1,0 +1,109 @@
+{% extends "layout.html" %} {% block title %}: Log In {% endblock %} {% block
+nav_link %}
+<a
+  class="nav-link"
+  href="{{ url_for('register') if not register_user else url_for('login') }}"
+  >{{ "Register" if not register_user else "Login" }}</a
+>
+{% endblock %} {% block main %}
+<form action="{{ '/register' if register_user else '/login' }}" method="post">
+  {% for category, message in get_flashed_messages(with_categories=true) %}
+  <div class="text-center d-block mb-3">
+    <span class="{{ 'success-message' if category == 'info' else 'error-message' }}">
+      {{ message }}
+    </span>
+  </div>
+  {% endfor %}
+  <div class="error-message-container text-center mb-3">
+    <span class="error-message-icon"
+      ><i class="fa-solid fa-circle-exclamation fa-sm"></i
+    ></span>
+    <p class="error-message"></p>
+  </div>
+  {% if register_user %}
+  <div class="mb-3">
+    <input
+      class="form-control mx-auto w-auto"
+      id="name"
+      name="name"
+      placeholder="Your Name"
+      type="text"
+      autofocus
+    />
+  </div>
+  {% endif %}
+  <div class="mb-3">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control mx-auto w-auto"
+      id="username"
+      name="username"
+      placeholder="Username"
+      type="text"
+      autocomplete="off"
+      autofocus
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      class="form-control mx-auto w-auto"
+      id="password"
+      name="password"
+      placeholder="Password"
+      type="password"
+      autocomplete="off"
+      autofocus
+    />
+  </div>
+  {% if register_user %}
+  <div class="mb-3">
+    <input
+      class="form-control mx-auto w-auto"
+      id="confirm-password"
+      name="confirm-password"
+      placeholder="Confirm Password"
+      type="password"
+      autocomplete="off"
+      autofocus
+    />
+  </div>
+  {% endif %}
+  <div class="mb-3">
+    <button class="btn btn-primary d-block mx-auto w-auto" type="submit">
+      {{ "Register" if register_user else "Log In" }}
+    </button>
+  </div>
+</form>
+<script>
+  $(document).ready(function () {
+    // Show error message if username exists
+    {% if user_exists %}
+    console.log("entered")
+    $(".error-message-container").show();
+    $(".error-message").text("Username already exists");
+    {% endif %}
+    // Prevent form submit if any of the fields are empty
+    $("form").on("submit", function (event) {
+      var formIsValid = true;
+      $(".form-control").each(function () {
+        if (!$(this).val()) {
+          formIsValid = false;
+          $(".error-message-container").show();
+          $(".error-message").text("Fill all the required fields");
+        }
+        {% if register_user %}
+        if ($("#password").val() != $("#confirm-password").val()) {
+            formIsValid = false;
+            $(".error-message-container").show();
+            $(".error-message").text("Passwords do not match");
+        }
+        {% endif %}
+      });
+      if (!formIsValid) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+{% endblock %}

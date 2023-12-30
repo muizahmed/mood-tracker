@@ -1,0 +1,108 @@
+/* font-family: 'Lato', sans-serif;
+font-family: 'Mulish', sans-serif;
+font-family: 'Poppins', sans-serif; */
+
+/* #FFEDE1
+#F9FBF2
+#D7F9FF
+#AFCBFF
+#0E1C36 */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f9fbf2;
+}
+
+.navbar {
+  font-family: "Poppins", sans-serif;
+  background-color: #d7f9ff;
+  padding: 10px 25px;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  gap: 25px;
+}
+
+main {
+  font-family: "Mulish", sans-serif;
+}
+
+/* HOMEPAGE */
+.index {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 50px;
+}
+
+.streak-user {
+  margin-top: 30px !important;
+}
+
+.mood-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+}
+
+.reason {
+  width: 100% !important;
+  font-size: 12px;
+  border-radius: 10px !important;
+}
+
+.slider:focus::-webkit-slider-thumb {
+  box-shadow: none;
+}
+
+.form-label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.bubble {
+  display: none;
+  background: blue;
+  color: white;
+  padding: 4px 8px;
+  position: absolute;
+  border-radius: 100% !important;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 32%;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.error-message-container {
+  display: none;
+}
+
+.error-message,
+.error-message-icon {
+  color: red !important;
+  display: inline !important;
+  font-weight: bolder !important;
+  font-size: 12px;
+}
+
+.success-message {
+  color: blue !important;
+  font-weight: bolder !important;
+  font-size: 16px;
+}
+
+.submit {
+  border-radius: 10px;
+  width: 150px;
+}
+
+/* ANALYTICS */
+
+/* FOOTER */
+.copyrights {
+  font-size: 12px;
+}

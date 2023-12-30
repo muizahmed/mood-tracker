@@ -1,0 +1,161 @@
+{% extends "layout.html" %} {% block title %}: Dashboard {% endblock %} {% block nav_link %}
+<a class="nav-link" href="{{ url_for('date_view') }}">View Logs</a>
+{% endblock %} {% block main %}
+
+<div class="index">
+  <div class="welcome-user my-auto">
+    <div class="greetings">
+      <p class="h2">Hello {{ username.title() }}</p>
+      <p class="h4">Today is {{ date }}</p>
+      <div class="streak-user">
+        {% if not entry_exists %}
+        <p class="h5">
+          You've logged your mood for {{ total_entries }} days in the past
+          month!
+        </p>
+        {% if streak == 0 %}
+        <p class="h6">Start a new streak by logging today's mood! 💪</p>
+        {% else %}
+        <p class="h6">
+          Keep your {{ streak }}-day streak going by logging today's mood! 💪
+        </p>
+        {% endif %} {% else %}
+        <p class="h5">Great job, you've logged your mood for today!</p>
+        <p class="h6">You now have a streak of {{ streak }} days! 🥳</p>
+        {% endif %}
+      </div>
+      <div class="analytics">
+        {% if total_entries > 10 %} {% include "analytics.html" %} {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    {% with messages = get_flashed_messages() %} {% for message in messages %}
+    <span class="error-message">{{ message }}</span>
+    {% endfor %} {% endwith %}
+    <div class="error-message-container mb-3">
+      <span class="error-message-icon"
+        ><i class="fa-solid fa-circle-exclamation fa-sm"></i
+      ></span>
+      <p class="error-message">Enter a value for a mood</p>
+    </div>
+    <form action="/" method="post">
+      <div class="mood-form">
+        {% for mood in moods %} {% set emoji = mood['emoji'] %} {% set mood =
+        mood['mood'] %} {% if mood != 'uncategorized' %}
+        <div class="input-group mb-3">
+          <label for="{{ mood }}Slider" class="form-label"
+            >{{ mood.title() }} {{ emoji }}</label
+          >
+          <input
+            type="range"
+            class="form-range slider my-1"
+            name="{{ mood }}Percentage"
+            value="0"
+          />
+          <output class="bubble"></output>
+          <div class="error-message-container">
+            <span class="error-message-icon"
+              ><i class="fa-solid fa-circle-exclamation fa-sm"></i
+            ></span>
+            <p class="error-message">Enter a reason</p>
+          </div>
+          <input
+            type="text"
+            class="form-control reason"
+            name="{{ mood }}Reason"
+            placeholder="Enter your reason"
+            autocomplete="off"
+          />
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+      <button type="submit" class="submit btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    var total = 0;
+    $(".slider").on("input", function () {
+      var totalValue = 0;
+      // Calculate the sum of all slider values
+      $(".slider").each(function () {
+        totalValue += parseInt($(this).val());
+      });
+
+      // Check if the sum exceeds 100
+      var currentSliderValue = parseInt($(this).val());
+      if (totalValue > 100) {
+        // Adjust the current slider value to prevent exceeding 100
+        var remainingValue = 100 - (totalValue - currentSliderValue);
+        $(this).val(remainingValue);
+      }
+
+      total = totalValue
+      console.log(total)
+
+      // Set bubble
+      var range = $(this);
+      var bubble = $(this).siblings(".bubble");
+      setBubble(range, bubble);
+
+      if (currentSliderValue == 0) {
+        var reasonField = $(this).siblings(".reason");
+        reasonField.removeAttr("required");
+      }
+    });
+
+    // Add a required attribute to reason field if the slider value is greater than 100
+    $("form").on("submit", function (event) {
+      var formIsValid = true;
+      if (total == 0) {
+        formIsValid = false;
+        $(this).siblings(".error-message-container").show();
+      };
+
+      $(".slider").each(function () {
+        var currentSliderValue = parseInt($(this).val());
+        var reasonField = $(this).siblings(".reason");
+        if (currentSliderValue > 0) {
+          reasonField.attr("required", true);
+
+          // If reason field is empty, prevent form submit and show error
+          if (!reasonField.val()) {
+            formIsValid = false;
+            reasonField.siblings(".error-message-container").show();
+            reasonField.siblings(".bubble").css("top", "28%");
+          } else {
+            reasonField.siblings(".error-message-container").hide();
+            reasonField.siblings(".bubble").css("top", "32%");
+          }
+        }
+      });
+      if (!formIsValid) {
+        event.preventDefault();
+        $("html, body").animate(
+          {
+            scrollTop: $(".error-message-container:visible:first").offset().top,
+          },
+          200
+        );
+      }
+    });
+
+    // Set bubble
+    function setBubble(range, bubble) {
+      bubble.show();
+      const val = range.val();
+      const min = range.attr("min") ? range.attr("min") : 0;
+      const max = range.attr("max") ? range.attr("max") : 100;
+      const newVal = Number(((val - min) * 100) / (max - min));
+      bubble.html(val);
+
+      // Sorta magic numbers based on size of the native UI thumb
+      bubble.css("left", `calc(${newVal}% + (${8 - newVal * 0.15}px))`);
+    }
+  });
+</script>
+{% endblock %}

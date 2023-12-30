@@ -1,0 +1,13 @@
+<hr class="my-5" />
+<p class="h6">
+  <p>Here are your insights from the past month:</p> <p
+  ><i class="fa-solid fa-chart-simple"></i> You were {% for mood, average in avg.items() %}
+  {{ average }}% <b>{{ mood }}</b>{% if not loop.last %}, {% endif %}
+  {% endfor %}
+  {% for emoji, (mood, date) in (["smile-beam", "frown", "angry"]|zip(max.items())) %}
+  <p><i class="fa-solid fa-face-{{ emoji }}"></i> You were the most {{ mood }} on <span class="text-secondary">{{ date }}</span></a></p>
+  {% endfor %}
+</p>
+</p>
+
+

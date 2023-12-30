@@ -1,0 +1,13 @@
+{% extends "layout.html" %} {% block title %}: View Logs {% endblock %} {% block nav_link %}<a class="nav-link" href="{{ url_for('index') }}">Home</a>{% endblock %}
+{% block main %}
+<p class="h5">Pick a Date</p>
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}
+<span class="error-message">{{ message }}</span>
+{% endfor %}
+{% endwith %}
+<form action="/date-view" method="post">
+<input type="date" id="date-picker" name="date">
+<input type="submit" value="Go">
+</form>
+{% endblock %}

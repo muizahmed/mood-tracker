@@ -1,0 +1,21 @@
+{% extends "layout.html" %} {% block title %}: View Logs {% endblock %} {% block nav_link %}<a
+  class="nav-link"
+  href="{{ url_for('index') }}"
+  >Home</a
+>{% endblock %} {% block main %} {% if data %}
+<p class="h3 mb-4 text-decoration-underline">{{ date }}</p>
+<table class="table table-striped">
+  <th>Mood</th>
+  <th>Percentage</th>
+  <th>Reason</th>
+  {% for row in data %}
+  <tr class="table-light">
+    <td>{{ row["mood"].title() }}</td>
+    <td>{{ row["percentage"] }}%</td>
+    <td>{{ row["reason"] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="h3">Data doesn't exist for this date!</p>
+{% endif %} {% endblock %}
