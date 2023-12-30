@@ -286,3 +286,6 @@ def show_date_view(date):
 @app.template_filter("zip")
 def zip_lists(a, b):
     return zip(a, b)
+
+if __name__ == "__main__":
+    app.run(debug=True)
