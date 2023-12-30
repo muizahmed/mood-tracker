@@ -1,6 +1,0 @@
-The name is going to be EmoTracker
-1. Create an SQL database and tables
-
-
-
-
