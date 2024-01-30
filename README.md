@@ -1,43 +1,45 @@
 # EmoTracker
-#### Video Demo: https://youtu.be/ZMu5udibQhc
-#### Description: A Mood Tracker that tracks percentages of emotions you felt today, along with reason for each of the emotion
+
+### Overview
+EmoTracker is a Mood Tracker web application designed to help you monitor and understand your emotions over time. It provides a simple and intuitive interface for logging your daily moods, along with reasons for each emotion. With insightful features and a user-friendly design, EmoTracker aims to enhance your self-awareness and emotional well-being.
+
+### Demo
+Check out our [Video Demo](https://youtu.be/ZMu5udibQhc) to see EmoTracker in action.
+
+### Live Deployment
+Explore EmoTracker live on [Heroku](https://emo-tracker-de9598ceb310.herokuapp.com).
 
 ## Features
-- Tracks mood/emotion
-- Tracks reason for each emotion
-- Maintains track of how many days you logged your mood in the past 31 days
-- Maintains track of how many consecuetive days you logged your mood
-- Provides an overview of how you have felt over the past month
-- Allows you to go to a specific day and see your mood tracking for that day
-
+- **Mood Tracking:** Log your daily emotions with a range slider for each mood.
+- **Reason Logging:** Provide reasons for each emotion to better understand your feelings.
+- **Historical Insights:** View your mood logs for the past 31 days and consecutive days streak.
+- **Monthly Overview:** Get an overview of your emotional trends for the past month.
+- **Date-specific View:** Navigate to a specific day to review your mood entries.
 
 ## Usage
 
-First, you need to create a User using the Register link located in the top-right of the navigation bar, using which you can then login to your brand new account. Provide a name by which you'd prefer to be addressed by the app, as well as a unique username.
+1. **Registration:** Create a user account using the Register link in the top-right corner. Provide your name, a unique username, and set a preferred app address.
 
-Once a User is created, you're now ready to log your mood and make the first entry.
+2. **Login:** After registration, log in using your newly created account.
 
-You'll need to slide the range slider to your desired value for each emotion. The slider thumb will change to display the current value once it is interacted with. You must enter a reason for each emotion that has a value greater than 0. The sum of all emotions cannot exceed 100, and once it has, the sliders will freeze.
+3. **Mood Logging:** Slide the range slider to set values for each emotion. Enter a reason for emotions with values greater than 0. The sum of all emotions should not exceed 100.
 
-Once an entry has been made for today, you cannot make another entry, and if you try to, you'll be directed to the homepage and shown an error message.
+4. **Date Picker:** Access the `date-view` page to pick a specific date and view mood logs for that day.
 
-You can also go the `date-view` page by clicking View Data in the navigation bar, which will take you to a Date Picker, where you can pick the date that you want to view the logs for. If no logs exist for that date, you'll be shown an error message and prompted to pick another date.
-If logs do exist for that date, you'll be taken to a dynamic URL for that date, and shown the logs in a nicely formatted table.
-
-Apart from logging mood, you can also see some insights on the homepage once you have made a couple of entries. You'll be shown your top 3 moods for the past month, as well as the days you felt the most happy, the most sad, and the most angry.
+5. **Insights:** Gain insights on the homepage, including top 3 moods, happiest day, saddest day, and angriest day for the past month.
 
 ## Implementation
 
-EmoTracker is a single-paged web app that uses Python, SQL, alongside Flask and Jinja for its functionality.
+EmoTracker is a single-page web app developed using Python, SQL, Flask, and Jinja for functionality. The front-end utilizes HTML, CSS, and JS.
 
-It uses plain HTML, CSS, and JS for the front-end.
+### Database Structure
+- **Users Table:** Tracks user information, including name, password hash, and current streak.
+- **Entry Table:** Records entry details such as `entry_id` and entry date.
+- **Moods Table:** Contains default moods with unique IDs and an uncategorized mood for incomplete emotional sums.
+- **User_Mood Table:** Manages user mood entries, storing mood percentages and reasons.
 
-The SQL Database EmoTracker.db has 5 tables: `Entry`, `Moods`, `User_Mood`, and `Users`.
+### Technologies Used
+- **Backend:** Python, SQL, Flask, Jinja
+- **Frontend:** HTML, CSS, JS
 
-The `Users` table keeps track of the user's name, their hash for password (not implemented yet), and their current ongoing streak (set to `0` by default).
-
-The `Entry` table keeps track of `entry_id` for each entry made, as well as the date that the entry was made on.
-
-The `Moods` table is a table that has 7 default moods, which get rendered on the homepage, and they each have their unique ID. It also has an uncatogerized mood, where if the sum of your emotions doesn't add up to 100, the rest is considered uncatogerized.
-
-Lastly, the `User_Mood` table is where all the magic happens, and it keeps track of the mood and percentage of mood and reason for each user.
+Feel free to explore and use EmoTracker to gain insights into your emotional well-being. If you encounter any issues or have suggestions, don't hesitate to reach out. Happy mood tracking!
